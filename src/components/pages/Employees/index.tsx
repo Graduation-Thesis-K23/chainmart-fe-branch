@@ -22,6 +22,7 @@ import { ColumnType, FilterConfirmProps } from "antd/es/table/interface";
 import MoreEmployeeDrawer from "./MoreEmployeesDrawer";
 import ViewEmployeeDrawer from "./ViewEmployeeDrawer";
 import { EmployeeType } from "~/shared";
+import ReloadButton from "~/components/common/ReloadButton";
 
 const EmployeesManagement = () => {
   const [moreEmployee, setMoreEmployee] = useState(false);
@@ -155,7 +156,7 @@ const EmployeesManagement = () => {
         columns={columns}
         dataSource={employees.data}
         pagination={false}
-        size="small"
+        size="large"
         rowKey="id"
         loading={!(employees.status == ASYNC_STATUS.SUCCEED)}
         scroll={{
@@ -169,6 +170,8 @@ const EmployeesManagement = () => {
           },
         })}
       />
+      {employees.status === ASYNC_STATUS.FAILED && <ReloadButton />}
+
       {moreEmployee && (
         <MoreEmployeeDrawer
           moreEmployee={moreEmployee}

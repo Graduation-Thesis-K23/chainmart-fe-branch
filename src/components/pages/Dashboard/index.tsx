@@ -23,6 +23,11 @@ import { DashboardPayload, getDataDashboard } from "~/redux/dashboard/slide";
 
 import dayjs from "dayjs";
 import ReloadButton from "~/components/common/ReloadButton";
+import weekday from "dayjs/plugin/weekday";
+import localeData from "dayjs/plugin/localeData";
+
+dayjs.extend(weekday);
+dayjs.extend(localeData);
 dayjs().format();
 
 const DashboardSc: FC = () => {
@@ -68,8 +73,11 @@ const DashboardSc: FC = () => {
           {/* only in the pass and max 60 days */}
           <DatePicker.RangePicker
             disabledDate={(current) => {
-              const customDate = dayjs().format("YYYY-MM-DD");
-              return current && current > dayjs(customDate, "YYYY-MM-DD");
+              return (
+                current &&
+                (current < dayjs().subtract(60, "days") ||
+                  current > dayjs().subtract(1, "days"))
+              );
             }}
             format={"DD/MM/YYYY"}
             onChange={(_, dateStrings) => {

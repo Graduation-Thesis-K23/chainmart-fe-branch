@@ -24,6 +24,9 @@ const DatePicker: FC<{
           name={name}
           format="YYYY/MM/DD"
           bordered={false}
+          disabledDate={(current) => {
+            return current && current < dayjs().subtract(1, "day");
+          }}
         />
       </DateC>
     </DateGroup>

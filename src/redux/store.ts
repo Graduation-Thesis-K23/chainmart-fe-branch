@@ -7,6 +7,7 @@ import { employeeReducer } from "./employee";
 import { ordersReducer } from "./orders";
 import { batchReducer } from "./batch";
 import { dashboardReducer } from "./dashboard";
+import { productReducer } from "./product";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     orders: ordersReducer,
     batch: batchReducer,
     dashboard: dashboardReducer,
+    products: productReducer,
   },
 });
 

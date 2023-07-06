@@ -1,124 +1,103 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Input, InputRef, Space, Table } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { ColumnType, FilterConfirmProps } from "antd/es/table/interface";
-import Highlighter from "react-highlight-words";
-
 import { Orders, OrdersHeader } from "./styled";
 import {
   ASYNC_STATUS,
+  OrdersRender,
   fetchOrder,
   useAppDispatch,
   useAppSelector,
 } from "~/redux";
 import withAuth from "~/hocs/withAuth";
 import PageTitle from "~/components/common/PageTitle";
-import { OrderType } from "~/shared";
-import ViewOrdersDrawer from "./ViewOrdersDrawer";
+import { OrderStatus, Payment } from "~/shared";
+import ReloadButton from "~/components/common/ReloadButton";
+import ViewOrderDrawer from "./ViewOrderDrawer";
+import convertPrice from "~/utils/convert-price";
+
+interface ProductProps {
+  name: string;
+  price: number;
+  sale: number;
+  slug: string;
+}
+
+interface OrderDetailProps {
+  quantity: number;
+  product: ProductProps;
+}
+
+interface AddressProps {
+  name: string;
+  phone: string;
+  city: string;
+  district: string;
+  ward: string;
+  street: string;
+}
+
+export interface OrderDetailsProps {
+  id: string;
+  created_at: Date;
+  user: {
+    name: string;
+    phone: string;
+    username: string;
+    email: string;
+  };
+  order_details: OrderDetailProps[];
+  address: AddressProps;
+  total: number;
+  status: OrderStatus;
+  payment: Payment;
+  return_date: Date;
+  approved_date: Date;
+  shipped_date: Date;
+  estimated_shipped_date: Date;
+  canceled_date: Date;
+}
 
 const OrdersManagement = () => {
-  const [order, setOrder] = useState<OrderType>({} as OrderType);
-  const [viewOrder, setViewOrder] = useState(false);
+  const [viewOrderDrawer, setViewOrderDrawer] = useState(false);
+  const [viewOrder, setViewOrder] = useState<OrderDetailsProps>(
+    {} as OrderDetailsProps
+  );
 
   const orders = useAppSelector((state) => state.orders);
   const dispatch = useAppDispatch();
 
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
-  const searchInput = useRef<InputRef>(null);
-
-  const handleSearch = (
-    selectedKeys: string[],
-    confirm: (param?: FilterConfirmProps) => void,
-    dataIndex: keyof OrderType
-  ) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-
-  const getColumnSearchProps = (
-    dataIndex: keyof OrderType
-  ): ColumnType<OrderType> => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
-      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() =>
-            handleSearch(selectedKeys as string[], confirm, dataIndex)
-          }
-          style={{ marginBottom: 8, display: "block" }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() =>
-              handleSearch(selectedKeys as string[], confirm, dataIndex)
-            }
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Search
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}
-          >
-            close
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-    ),
-
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ""}
-        />
-      ) : (
-        text
-      ),
-  });
-
-  const columns: ColumnsType<OrderType> = [
+  const columns: ColumnsType<OrdersRender> = [
     {
       title: "No.",
-      dataIndex: "name",
-      width: "4%",
-      render: (_, __, index) => index + 1,
+      width: "60px",
+      render: (_, __, i) => <span>{i + 1}</span>,
     },
     {
-      title: "Id",
-      dataIndex: "id",
-      ...getColumnSearchProps("id"),
+      title: "Create At",
+      dataIndex: "created_at",
+    },
+    {
+      title: "Name",
+      dataIndex: "user",
+      render: (user) => <span>{user.name}</span>,
+    },
+    {
+      title: "Phone",
+      dataIndex: "user",
+      render: (user) => <span>{user.phone}</span>,
+    },
+    {
+      title: "Total",
+      render: (user) => <span>{convertPrice(user.total)}</span>,
+      sorter: (a, b) => (a.total > b.total ? 1 : -1),
     },
     {
       title: "Status",
       dataIndex: "status",
+      sorter: (a, b) => (a.status > b.status ? 1 : -1),
     },
   ];
-
   useEffect(() => {
     dispatch(fetchOrder());
   }, []);
@@ -132,7 +111,7 @@ const OrdersManagement = () => {
         columns={columns}
         dataSource={orders.data}
         pagination={false}
-        size="small"
+        size="large"
         rowKey="id"
         loading={!(orders.status == ASYNC_STATUS.SUCCEED)}
         scroll={{
@@ -141,17 +120,18 @@ const OrdersManagement = () => {
         }}
         onRow={(record) => ({
           onClick: () => {
-            setOrder(record);
-            setViewOrder(true);
+            setViewOrder(record as unknown as OrderDetailsProps);
+            setViewOrderDrawer(true);
           },
         })}
       />
 
-      {viewOrder && (
-        <ViewOrdersDrawer
-          viewOrder={viewOrder}
-          handleViewOrders={setViewOrder}
-          order={order}
+      {orders.status === ASYNC_STATUS.FAILED && <ReloadButton />}
+      {viewOrderDrawer && (
+        <ViewOrderDrawer
+          order={viewOrder}
+          viewOrder={viewOrderDrawer}
+          handleViewOrder={setViewOrderDrawer}
         />
       )}
     </Orders>
