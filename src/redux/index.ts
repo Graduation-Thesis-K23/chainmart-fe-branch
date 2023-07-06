@@ -5,3 +5,4 @@ export * from "./login";
 export * from "./employee";
 export * from "./orders";
 export * from "./batch";
+export * from "./dashboard";
