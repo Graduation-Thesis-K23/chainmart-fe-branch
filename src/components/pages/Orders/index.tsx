@@ -16,7 +16,7 @@ import ReloadButton from "~/components/common/ReloadButton";
 import ViewOrderDrawer from "./ViewOrderDrawer";
 import convertPrice from "~/utils/convert-price";
 
-interface ProductProps {
+export interface ProductProps {
   name: string;
   price: number;
   sale: number;
