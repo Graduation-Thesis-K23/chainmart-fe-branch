@@ -17,9 +17,9 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["./src/*"],
-      "types": ["cypress", "node"]
-    }
+      "~/*": ["./src/*"]
+    },
+    "types": ["cypress", "node"]
   },
   "include": ["src"]
 }
