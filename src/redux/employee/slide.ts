@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { ASYNC_STATUS } from "../constants";
 import instance from "~/services/axios-instance";
 import { AppDispatch, RootState } from "../store";
-import { EmployeeType } from "~/shared";
+import { EmployeeType, ErrorPayload } from "~/shared";
 
 export interface MoreEmployeeType {
   name: string;
@@ -42,7 +42,7 @@ export const employeesState = createSlice({
       state.data = payload;
     });
     builder.addCase(fetchEmployees.rejected, (state) => {
-      state.status = ASYNC_STATUS.SUCCEED;
+      state.status = ASYNC_STATUS.FAILED;
     });
     builder.addCase(createEmployee.pending, (state) => {
       state.status = ASYNC_STATUS.LOADING;
@@ -64,7 +64,7 @@ export const employeesState = createSlice({
       );
     });
     builder.addCase(activeEmployee.rejected, (state) => {
-      state.status = ASYNC_STATUS.SUCCEED;
+      state.status = ASYNC_STATUS.FAILED;
     });
   },
 });
@@ -72,7 +72,9 @@ export const employeesState = createSlice({
 export const fetchEmployees = createAppAsyncThunk(
   "employee/fetchEmployees",
   async (_, thunkApi) => {
-    const response = await instance.get("/api/employee/manager");
+    const response: EmployeeType[] | ErrorPayload = await instance.get(
+      "/api/employee/manager"
+    );
 
     if ("message" in response) {
       return thunkApi.rejectWithValue(response.message as unknown as string);
@@ -85,7 +87,10 @@ export const fetchEmployees = createAppAsyncThunk(
 export const createEmployee = createAppAsyncThunk(
   "employee/createEmployee",
   async (data: MoreEmployeeType, thunkApi) => {
-    const response = await instance.post("/api/employee/create-employee", data);
+    const response: EmployeeType | ErrorPayload = await instance.post(
+      "/api/employee/create-employee",
+      data
+    );
 
     if ("message" in response) {
       return thunkApi.rejectWithValue(response.message as unknown as string);
@@ -98,7 +103,7 @@ export const createEmployee = createAppAsyncThunk(
 export const activeEmployee = createAppAsyncThunk(
   "employee/activeEmployee",
   async (data: { phone: string; active: boolean }, thunkApi) => {
-    const response = await instance.get(
+    const response: EmployeeType | ErrorPayload = await instance.get(
       "/api/employee/active-employee/" + data.phone + "?active=" + data.active
     );
 
@@ -113,7 +118,7 @@ export const activeEmployee = createAppAsyncThunk(
 export const resetPassword = createAppAsyncThunk(
   "employee/resetPassword",
   async (id: string, thunkApi) => {
-    const response = await instance.get(
+    const response: EmployeeType | ErrorPayload = await instance.get(
       "/api/employee/reset-password-manager/" + id
     );
 

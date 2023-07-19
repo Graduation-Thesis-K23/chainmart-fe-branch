@@ -53,6 +53,13 @@ const MoreBatchDrawer: FC<{
         position: "bottom-right",
       });
       handleMoreBatch(false);
+    } else {
+      toast(result.payload as string, {
+        type: "error",
+        position: "bottom-right",
+        hideProgressBar: true,
+        theme: "light",
+      });
     }
   };
 

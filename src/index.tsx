@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/index.css";
@@ -22,5 +21,3 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
-
-reportWebVitals();

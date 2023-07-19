@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { ASYNC_STATUS } from "../constants";
 import instance from "~/services/axios-instance";
-import { ErrorPayload } from "~/shared";
+import { ErrorPayload, PaginationMetadata, PaginationResult } from "~/shared";
 
 export interface ProductType {
   id: string;
@@ -11,11 +11,13 @@ export interface ProductType {
 export interface ProductsState {
   data: ProductType[];
   status: typeof ASYNC_STATUS[keyof typeof ASYNC_STATUS];
+  metadata: PaginationMetadata;
 }
 
 const initialState: ProductsState = {
   data: [],
   status: ASYNC_STATUS.IDLE,
+  metadata: {} as PaginationMetadata,
 };
 
 export const productsSlice = createSlice({
@@ -28,7 +30,16 @@ export const productsSlice = createSlice({
     });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
-      state.data = action.payload;
+      const { docs, totalDocs, limit, totalPages, page } = action.payload;
+
+      state.data = docs;
+
+      state.metadata = {
+        totalDocs,
+        limit,
+        totalPages,
+        page,
+      };
     });
     builder.addCase(fetchProducts.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;
@@ -40,9 +51,8 @@ export const productsSlice = createSlice({
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (_, thunkApi) => {
-    const products: ProductType[] | ErrorPayload = await instance.get(
-      "/api/products"
-    );
+    const products: PaginationResult<ProductType> | ErrorPayload =
+      await instance.get("/api/products?limit=1000000");
 
     if ("message" in products) {
       return thunkApi.rejectWithValue(products.message);

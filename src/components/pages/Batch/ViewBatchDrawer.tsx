@@ -2,15 +2,17 @@ import { Col, Drawer, Row } from "antd";
 import React, { FC } from "react";
 import { Input } from "~/components/common";
 import { BatchType } from "~/shared";
-import convertPrice from "~/utils/convert-price";
-import dictionary from "~/utils/dictionary";
-import getLinkBySlug from "~/utils/get-link-by-slug";
+// import convertPrice from "~/utils/convert-price";
+// import dictionary from "~/utils/dictionary";
+// import getLinkBySlug from "~/utils/get-link-by-slug";
 
 const ViewBatchDrawer: FC<{
   viewBatch: boolean;
   handleViewBatch: (status: boolean) => void;
   batch: BatchType;
 }> = ({ viewBatch, handleViewBatch, batch }) => {
+  console.log(batch);
+
   return (
     <Drawer
       title="View Batch"
@@ -55,7 +57,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Import Cost"
-            value={batch.id}
+            value={batch.import_cost}
             disabled
             onChange={() => {
               return;
@@ -65,7 +67,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Expiry Date"
-            value={batch.created_at}
+            value={batch.expiry_date}
             disabled
             onChange={() => {
               return;
@@ -75,7 +77,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Sold"
-            value={batch.batch_code}
+            value={batch.sold}
             disabled
             onChange={() => {
               return;
@@ -87,7 +89,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Product ID"
-            value={batch.product.id}
+            value={batch.product_id}
             disabled
             onChange={() => {
               return;
@@ -97,7 +99,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Product Name"
-            value={batch.product.name}
+            value={batch.product_id}
             disabled
             onChange={() => {
               return;
@@ -107,7 +109,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Product Price"
-            value={convertPrice(batch.product.price)}
+            value={batch.product_id}
             disabled
             onChange={() => {
               return;
@@ -119,7 +121,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Product Category"
-            value={dictionary(batch.product.category)}
+            // value={dictionary(batch.product.category)}
             disabled
             onChange={() => {
               return;
@@ -129,7 +131,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Product Code"
-            value={batch.product.product_code}
+            // value={batch.product.product_code}
             disabled
             onChange={() => {
               return;
@@ -139,7 +141,7 @@ const ViewBatchDrawer: FC<{
         <Col span={8}>
           <Input
             label="Product Link"
-            value={getLinkBySlug(batch.product.slug)}
+            // value={getLinkBySlug(batch.product.slug)}
             disabled
             onChange={() => {
               return;
