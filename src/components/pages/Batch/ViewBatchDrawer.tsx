@@ -11,8 +11,6 @@ const ViewBatchDrawer: FC<{
   handleViewBatch: (status: boolean) => void;
   batch: BatchType;
 }> = ({ viewBatch, handleViewBatch, batch }) => {
-  console.log(batch);
-
   return (
     <Drawer
       title="View Batch"
