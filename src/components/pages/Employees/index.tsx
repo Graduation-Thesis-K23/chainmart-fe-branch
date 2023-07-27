@@ -131,6 +131,11 @@ const EmployeesManagement = () => {
       ...getColumnSearchProps("phone"),
     },
     {
+      title: "Role",
+      dataIndex: "role",
+      ...getColumnSearchProps("role"),
+    },
+    {
       title: "Active",
       dataIndex: "isActive",
       render: (isActive) => (isActive ? "Active" : "Inactive"),

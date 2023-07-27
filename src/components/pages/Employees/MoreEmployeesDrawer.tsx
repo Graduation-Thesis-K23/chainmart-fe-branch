@@ -2,7 +2,7 @@ import { Button, Col, Drawer, Row } from "antd";
 import React, { FC, useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Input } from "~/components/common";
+import { Input, Select } from "~/components/common";
 import {
   ASYNC_STATUS,
   MoreEmployeeType,
@@ -27,6 +27,7 @@ const MoreEmployeeDrawer: FC<{
     defaultValues: {
       name: "",
       phone: "",
+      role: "EMPLOYEE",
     },
   });
 
@@ -91,6 +92,26 @@ const MoreEmployeeDrawer: FC<{
                   value={value}
                   name={name}
                   type="tel"
+                />
+              )}
+              rules={{ required: true }}
+            />
+          </Col>
+          <Col span={24}>
+            <Controller
+              name="role"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <Select
+                  defaultValue={"EMPLOYEE"}
+                  options={[
+                    {
+                      value: "EMPLOYEE",
+                      label: "EMPLOYEE",
+                    },
+                    { value: "SHIPPER", label: "SHIPPER" },
+                  ]}
+                  onChange={onChange}
                 />
               )}
               rules={{ required: true }}

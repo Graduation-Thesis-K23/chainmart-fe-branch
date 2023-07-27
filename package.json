@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "serve -s build -p 8080",
-    "dev": "craco start",
-    "build": "craco build",
+    "dev": "env-cmd -f .env.dev craco start",
+    "build": "env-cmd -f .env craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
@@ -43,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.45.0",
     "cypress": "^12.17.1",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.7.0",
     "eslint-config-standard-with-typescript": "^35.0.0",
