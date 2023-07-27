@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import PageTitle from "~/components/common/PageTitle";
 import {
   Dashboard,
@@ -20,6 +20,7 @@ import {
 import { Select, Space, DatePicker, Button, Tooltip, Spin } from "antd";
 import { ASYNC_STATUS, useAppDispatch, useAppSelector } from "~/redux";
 import { DashboardPayload, getDataDashboard } from "~/redux/dashboard/slide";
+import { DashboardType } from "~/shared";
 
 import dayjs from "dayjs";
 import ReloadButton from "~/components/common/ReloadButton";
@@ -37,7 +38,11 @@ const DashboardSc: FC = () => {
   const [endDate, setEndDate] = React.useState<string>(
     dayjs().subtract(1, "days").toString()
   );
-  const [dashboardType, setDashboardType] = React.useState<string>("revenue");
+
+  const [dashboardType, setDashboardType] = React.useState<DashboardType>(
+    DashboardType.OrdersDaily
+  );
+
   const [chartType, setChartType] = React.useState<string>("line");
 
   const { data, status } = useAppSelector((state) => state.dashboard);
@@ -53,6 +58,16 @@ const DashboardSc: FC = () => {
     await dispatch(getDataDashboard(data));
   };
 
+  useEffect(() => {
+    dispatch(
+      getDataDashboard({
+        startDate,
+        endDate,
+        dashboardType,
+      })
+    );
+  }, []);
+
   return (
     <Dashboard>
       <DashboardHeader>
@@ -64,9 +79,10 @@ const DashboardSc: FC = () => {
             defaultValue={dashboardType}
             style={{ width: 400 }}
             options={[
-              { value: "revenue", label: "Revenue" },
-              { value: "income", label: "Income" },
-              { value: "product_sell", label: "Product Sell" },
+              { value: DashboardType.OrdersDaily, label: "Orders Per Day" },
+              { value: DashboardType.NewUser, label: "New User" },
+              { value: DashboardType.RevenueDaily, label: "Revenue Per Day" },
+              { value: DashboardType.HotSelling, label: "Hot Selling" },
             ]}
             onChange={(value) => setDashboardType(value)}
           />
@@ -141,7 +157,7 @@ const DashboardSc: FC = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+              <Line type="monotone" dataKey="value" stroke="#8884d8" />
             </LineChart>
           ) : (
             <BarChart width={1400} height={700} data={data}>
@@ -150,7 +166,7 @@ const DashboardSc: FC = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="uv" fill="#8884d8" />
+              <Bar dataKey="value" fill="#8884d8" />
             </BarChart>
           )}
         </DashboardBody>

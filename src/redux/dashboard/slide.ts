@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { ASYNC_STATUS } from "../constants";
 import { ErrorPayload } from "~/shared";
+import instance from "~/services/axios-instance";
 
 interface DashboardColumn {
   name: string;
@@ -16,12 +17,12 @@ export interface DashboardPayload {
   dashboardType: string;
 }
 
-export interface DashboardType {
+export interface DashboardTypeRedux {
   data: DashboardColumn[];
   status: typeof ASYNC_STATUS[keyof typeof ASYNC_STATUS];
 }
 
-const initialState: DashboardType = {
+const initialState: DashboardTypeRedux = {
   data: [],
   status: ASYNC_STATUS.IDLE,
 };
@@ -47,50 +48,13 @@ export const dashboardType = createSlice({
 export const getDataDashboard = createAsyncThunk(
   "dashboard/getDataDashboard",
   async (payload: DashboardPayload, thunkApi) => {
-    /* const response: DashboardColumn[] | ErrorPayload = await instance.post(
-      "/api/dashboard",
-      payload
-    ); */
-
-    const response: DashboardColumn[] | ErrorPayload = await new Promise(
-      (resolve) => {
-        setTimeout(() => {
-          resolve([
-            {
-              name: "Branch 1",
-              uv: Math.floor(Math.random() * 1000),
-            },
-            {
-              name: "Branch 2",
-              uv: Math.floor(Math.random() * 1000),
-            },
-            {
-              name: "Branch 3",
-              uv: Math.floor(Math.random() * 1000),
-            },
-            {
-              name: "Branch 4",
-              uv: Math.floor(Math.random() * 1000),
-            },
-            {
-              name: "Branch 5",
-              uv: Math.floor(Math.random() * 1000),
-            },
-            {
-              name: "Branch 6",
-              uv: Math.floor(Math.random() * 1000),
-            },
-            {
-              name: "Branch 7",
-              uv: Math.floor(Math.random() * 1000),
-            },
-            {
-              name: "Branch 8",
-              uv: Math.floor(Math.random() * 1000),
-            },
-          ]);
-        }, 1000);
-      }
+    const urlParams = new URLSearchParams({
+      startDate: payload.startDate,
+      endDate: payload.endDate,
+      dashboardType: payload.dashboardType,
+    }).toString();
+    const response: DashboardColumn[] | ErrorPayload = await instance.get(
+      "/api/dashboard/branch?" + urlParams
     );
 
     if ("message" in response) {

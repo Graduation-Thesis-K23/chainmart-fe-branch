@@ -41,7 +41,7 @@ export const loginState = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(signIn.fulfilled, (state, { payload }) => {
-      if (payload.role !== Role.Manager) {
+      if (payload.role !== Role.Branch) {
         state.status = ASYNC_STATUS.FAILED;
         state.data = {} as User;
         state.message = "Your role not permission.";
@@ -56,7 +56,7 @@ export const loginState = createSlice({
       state.message = action.error.message as unknown as string;
     });
     builder.addCase(checkCookieToken.fulfilled, (state, { payload }) => {
-      if (payload.role !== Role.Manager) {
+      if (payload.role !== Role.Branch) {
         state.status = ASYNC_STATUS.FAILED;
         state.data = {} as User;
         state.message = "Your role not permission.";
@@ -72,7 +72,7 @@ export const loginState = createSlice({
       state.status = ASYNC_STATUS.FAILED;
     });
     builder.addCase(changePassword.fulfilled, (state, { payload }) => {
-      if (payload.role !== Role.Manager) {
+      if (payload.role !== Role.Branch) {
         state.status = ASYNC_STATUS.FAILED;
         state.data = {} as User;
         state.message = "Your role not permission.";

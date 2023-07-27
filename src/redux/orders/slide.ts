@@ -3,28 +3,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ASYNC_STATUS } from "../constants";
 import { ErrorPayload, OrderStatus } from "~/shared";
 import instance from "~/services/axios-instance";
-export interface OrdersType {
-  id: string;
-  name: string;
-  phone: string;
-  branchId: string;
-}
 
-interface User {
+export interface OrdersRender {
   id: string;
-  name: string;
-  email: string;
-  phone: string;
-  username: string;
-}
-
-export interface OrdersRender extends OrdersType {
-  created_at: Date;
-  user: User;
-  estimated_shipped_date: Date;
+  created_at: string;
   status: OrderStatus;
   total: number;
   payment: string;
+  phone: string;
+  name: string;
 }
 
 export interface OrdersState {
@@ -58,7 +45,7 @@ export const fetchOrder = createAsyncThunk(
   "orders/fetchOrder",
   async (_, thunkApi) => {
     const response: OrdersRender[] | ErrorPayload = await instance.get(
-      "/api/orders"
+      "/api/orders/branch"
     );
 
     if ("message" in response) {

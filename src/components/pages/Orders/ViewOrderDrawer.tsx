@@ -1,15 +1,13 @@
 import { Col, Drawer, Row } from "antd";
-import React, { FC, Fragment, memo } from "react";
-import { OrderDetailsProps } from ".";
+import React, { FC, memo } from "react";
 import Span from "./Span";
 import convertPrice from "~/utils/convert-price";
 import { ProductsLabel, ProductsTable, TBody, THead } from "./styled";
 
 const ViewOrder: FC<{
-  order: OrderDetailsProps;
   viewOrder: boolean;
   handleViewOrder: (status: boolean) => void;
-}> = ({ order, viewOrder, handleViewOrder }) => {
+}> = ({ viewOrder, handleViewOrder }) => {
   return (
     <Drawer
       title="View Order Details"
@@ -18,9 +16,9 @@ const ViewOrder: FC<{
       onClose={() => handleViewOrder(false)}
       width={1200}
     >
-      <Row gutter={24}>
+      {/* <Row gutter={24}>
         <Col span={5}>
-          <Span label="Order ID" value={order.id} />
+          <Span label="Order ID" value={"order.id"} />
         </Col>
 
         <Col span={5}>
@@ -68,8 +66,8 @@ const ViewOrder: FC<{
             value={order.return_date ? order.return_date.toString() : "N/A"}
           />
         </Col>
-      </Row>
-      <Row gutter={24}>
+      </Row> */}
+      {/* <Row gutter={24}>
         <Col span={6}>
           <Span label="Receiver Name" value={order.address.name} />
         </Col>
@@ -82,7 +80,7 @@ const ViewOrder: FC<{
             value={`${order.address.street}, ${order.address.ward}, ${order.address.city}, ${order.address.district}`}
           />
         </Col>
-      </Row>
+      </Row> */}
       <Row gutter={24}>
         <Col span={24}>
           <ProductsLabel>Product List</ProductsLabel>
@@ -96,7 +94,7 @@ const ViewOrder: FC<{
               </tr>
             </THead>
             <TBody>
-              {order.order_details.map((orderDetail, index) => (
+              {/*  {order.order_details.map((orderDetail, index) => (
                 <Fragment key={index}>
                   <tr>
                     <td>{index + 1}</td>
@@ -105,7 +103,7 @@ const ViewOrder: FC<{
                     <td>{orderDetail.quantity}</td>
                   </tr>
                 </Fragment>
-              ))}
+              ))} */}
             </TBody>
           </ProductsTable>
         </Col>
