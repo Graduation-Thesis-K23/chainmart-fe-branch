@@ -21,7 +21,7 @@ import PageTitle from "~/components/common/PageTitle";
 import { ColumnType, FilterConfirmProps } from "antd/es/table/interface";
 import MoreEmployeeDrawer from "./MoreEmployeesDrawer";
 import ViewEmployeeDrawer from "./ViewEmployeeDrawer";
-import { EmployeeType, Role } from "~/shared";
+import { EmployeeType } from "~/shared";
 import ReloadButton from "~/components/common/ReloadButton";
 
 const EmployeesManagement = () => {
