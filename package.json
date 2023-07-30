@@ -6,7 +6,7 @@
     "start": "serve -s build -p 8080",
     "dev": "env-cmd -f .env.dev craco start",
     "build": "env-cmd -f .env craco build",
-    "test": "craco test",
+    "test": "env-cmd -f .env.dev craco test",
     "eject": "react-scripts eject"
   },
   "dependencies": {

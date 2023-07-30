@@ -21,7 +21,7 @@ import PageTitle from "~/components/common/PageTitle";
 import { ColumnType, FilterConfirmProps } from "antd/es/table/interface";
 import MoreEmployeeDrawer from "./MoreEmployeesDrawer";
 import ViewEmployeeDrawer from "./ViewEmployeeDrawer";
-import { EmployeeType } from "~/shared";
+import { EmployeeType, Role } from "~/shared";
 import ReloadButton from "~/components/common/ReloadButton";
 
 const EmployeesManagement = () => {
@@ -43,7 +43,7 @@ const EmployeesManagement = () => {
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
-    dataIndex: keyof EmployeeType
+    dataIndex: keyof EmployeeType | Role
   ) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -51,7 +51,7 @@ const EmployeesManagement = () => {
   };
 
   const getColumnSearchProps = (
-    dataIndex: keyof EmployeeType
+    dataIndex: keyof EmployeeType | Role
   ): ColumnType<EmployeeType> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
