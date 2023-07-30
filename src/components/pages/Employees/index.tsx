@@ -43,7 +43,7 @@ const EmployeesManagement = () => {
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
-    dataIndex: keyof EmployeeType | Role
+    dataIndex: keyof EmployeeType
   ) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -51,7 +51,7 @@ const EmployeesManagement = () => {
   };
 
   const getColumnSearchProps = (
-    dataIndex: keyof EmployeeType | Role
+    dataIndex: keyof EmployeeType
   ): ColumnType<EmployeeType> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
