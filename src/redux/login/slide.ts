@@ -56,6 +56,8 @@ export const loginState = createSlice({
       state.message = action.error.message as unknown as string;
     });
     builder.addCase(checkCookieToken.fulfilled, (state, { payload }) => {
+      console.log(payload.role);
+      console.log(Role.Branch);
       if (payload.role !== Role.Branch) {
         state.status = ASYNC_STATUS.FAILED;
         state.data = {} as User;

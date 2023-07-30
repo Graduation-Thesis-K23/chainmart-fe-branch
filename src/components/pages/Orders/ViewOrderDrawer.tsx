@@ -1,7 +1,5 @@
 import { Col, Drawer, Row } from "antd";
 import React, { FC, memo } from "react";
-import Span from "./Span";
-import convertPrice from "~/utils/convert-price";
 import { ProductsLabel, ProductsTable, TBody, THead } from "./styled";
 
 const ViewOrder: FC<{

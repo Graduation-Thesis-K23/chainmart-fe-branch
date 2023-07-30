@@ -29,7 +29,7 @@
     "semi": ["error", "always"],
     "no-restricted-imports": "off",
     "@typescript-eslint/no-restricted-imports": [
-      "warn",
+      "off",
       {
         "name": "react-redux",
         "importNames": ["useSelector", "useDispatch"],
@@ -39,5 +39,10 @@
     "@typescript-eslint/no-unused-vars": "warn",
     "no-empty-interface": "off",
     "@typescript-eslint/no-empty-function": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
