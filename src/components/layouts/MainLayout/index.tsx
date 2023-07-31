@@ -1,12 +1,7 @@
 import React, { FC, ReactElement, memo } from "react";
 import { Layout, Menu } from "antd";
 import type { MenuProps } from "antd";
-import {
-  ShopOutlined,
-  AreaChartOutlined,
-  UsergroupAddOutlined,
-  CodepenOutlined,
-} from "@ant-design/icons";
+import { ShopOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Header, HomeLink, Image } from "./styled";
 import logo from "~/assets/images/logo.png";
@@ -15,7 +10,6 @@ import { ASYNC_STATUS, useAppSelector } from "~/redux";
 import { LoadingLarge } from "~/components/common";
 
 const PAGES = {
-  DASHBOARD: "DASHBOARD",
   BATCH: "BATCH",
   EMPLOYEES: "EMPLOYEES",
   ORDERS: "ORDERS",
@@ -23,29 +17,20 @@ const PAGES = {
 
 const items: MenuProps["items"] = [
   {
-    key: PAGES.DASHBOARD,
-    icon: <AreaChartOutlined />,
-    label: (
-      <Link to="/">
-        <span>Dashboard</span>
-      </Link>
-    ),
-  },
-  {
     key: PAGES.BATCH,
     icon: <ShopOutlined />,
-    label: <Link to="/batch">Batch Management</Link>,
+    label: <Link to="/">Batch Management</Link>,
   },
   {
     key: PAGES.EMPLOYEES,
     icon: <UsergroupAddOutlined />,
     label: <Link to="/employees">Employees Management</Link>,
   },
-  {
+  /* {
     key: PAGES.ORDERS,
     icon: <CodepenOutlined />,
     label: <Link to="/orders">Orders Management</Link>,
-  },
+  }, */
 ];
 
 const MainLayout: FC<{

@@ -162,7 +162,7 @@ const MoreBatchDrawer: FC<{
         <Button
           disabled={isSubmitting}
           onClick={handleSubmit(onSubmit)}
-          loading={!(batch.status === ASYNC_STATUS.SUCCEED)}
+          loading={batch.status === ASYNC_STATUS.LOADING}
           type="primary"
         >
           Save

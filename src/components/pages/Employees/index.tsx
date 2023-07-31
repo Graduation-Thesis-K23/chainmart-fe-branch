@@ -117,7 +117,7 @@ const EmployeesManagement = () => {
     {
       title: "No.",
       dataIndex: "name",
-      width: "4%",
+      width: "75px",
       render: (_, __, index) => index + 1,
     },
     {

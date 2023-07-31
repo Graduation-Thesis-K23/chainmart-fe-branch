@@ -72,8 +72,6 @@ export const createBatch = createAsyncThunk(
       "/api/batches",
       {
         ...payload,
-        branch_id: "115cb7a8-78db-4dd1-b3dc-2e3dfba95338",
-        employee_create_id: "46ae3cbf-efba-4d7a-b731-cd4d2a50e033",
       }
     );
 
