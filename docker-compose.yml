@@ -1,8 +1,0 @@
-version: "3.7"
-
-services:
-  chainmart-fe-branch:
-    image: 376597958889.dkr.ecr.ap-southeast-1.amazonaws.com/chainmart-fe-branch:latest
-    ports:
-      - "6002:80"
-    restart: always
