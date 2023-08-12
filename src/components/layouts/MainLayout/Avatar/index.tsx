@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 const Avatar = () => {
   const dispatch = useAppDispatch();
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logout());
     window.location.href = "/login";
   };
 
