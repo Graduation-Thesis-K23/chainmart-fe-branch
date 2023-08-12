@@ -17,6 +17,7 @@ import ViewBatchDrawer from "./ViewBatchDrawer";
 import MoreBatchDrawer from "./MoreBatchDrawer";
 import ReloadButton from "~/components/common/ReloadButton";
 import convertPrice from "~/utils/convert-price";
+import convertTimestamp from "~/utils/convert-timestamp";
 
 const BatchManagement = () => {
   const [batch, setBatch] = useState<BatchType>({} as BatchType);
@@ -36,6 +37,7 @@ const BatchManagement = () => {
     {
       title: "Created At",
       dataIndex: "created_at",
+      render: (value) => <span>{convertTimestamp(value)}</span>,
     },
     {
       title: "Import Quantity",
