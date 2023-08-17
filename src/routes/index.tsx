@@ -7,6 +7,7 @@ import {
   Employees,
   NotFound,
   ChangePassword,
+  Orders,
 } from "~/components/pages";
 import MainLayout from "~/components/layouts/MainLayout";
 import ErrorBoundary from "~/components/pages/ErrorBoundary";
@@ -29,6 +30,10 @@ const routerList = [
   {
     path: "/employees",
     element: <Employees />,
+  },
+  {
+    path: "/orders",
+    element: <Orders />,
   },
   {
     path: "/change-password",
