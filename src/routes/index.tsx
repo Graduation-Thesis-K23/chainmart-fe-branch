@@ -9,28 +9,9 @@ import {
   ChangePassword,
 } from "~/components/pages";
 import MainLayout from "~/components/layouts/MainLayout";
+import ErrorBoundary from "~/components/pages/ErrorBoundary";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <MainLayout>
-        <Batch />
-      </MainLayout>
-    ),
-  },
-  {
-    path: "/employees",
-    element: (
-      <MainLayout>
-        <Employees />
-      </MainLayout>
-    ),
-  },
-  {
-    path: "/change-password",
-    element: <ChangePassword />,
-  },
+const baseRouter = [
   {
     path: "/login",
     element: <Login />,
@@ -39,6 +20,43 @@ const router = createBrowserRouter([
     path: "*",
     element: <NotFound />,
   },
-]);
+];
+const routerList = [
+  {
+    path: "/",
+    element: <Batch />,
+  },
+  {
+    path: "/employees",
+    element: <Employees />,
+  },
+  {
+    path: "/change-password",
+    element: <ChangePassword />,
+  },
+];
 
-export default router;
+const devRouter = routerList.map((router) => {
+  return {
+    ...router,
+    element: <MainLayout>{router.element}</MainLayout>,
+  };
+});
+
+const prodRouter = routerList.map((router) => {
+  return {
+    ...router,
+    element: (
+      <ErrorBoundary>
+        <MainLayout>{router.element}</MainLayout>
+      </ErrorBoundary>
+    ),
+  };
+});
+
+const routers =
+  process.env.NODE_ENV === "development"
+    ? [...baseRouter, ...devRouter]
+    : [...baseRouter, ...prodRouter];
+
+export default createBrowserRouter(routers);
