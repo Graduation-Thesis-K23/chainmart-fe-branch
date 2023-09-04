@@ -126,12 +126,17 @@ const OrdersManagement = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      fetchOrder({
-        search: searchText,
-        status,
-      })
-    );
+    if (
+      orders.status !== ASYNC_STATUS.SUCCEED &&
+      orders.status !== ASYNC_STATUS.LOADING
+    ) {
+      dispatch(
+        fetchOrder({
+          search: searchText,
+          status,
+        })
+      );
+    }
   }, []);
 
   return (
