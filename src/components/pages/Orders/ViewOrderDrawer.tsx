@@ -320,9 +320,9 @@ const ViewOrder: FC<{
                   <tr
                     style={{
                       backgroundColor:
-                        orderDetail.available < orderDetail.quantity
-                          ? "#f05e61"
-                          : "",
+                        orderDetail.available > orderDetail.quantity
+                          ? ""
+                          : "#f05e61",
                     }}
                   >
                     <td>{index + 1}</td>
