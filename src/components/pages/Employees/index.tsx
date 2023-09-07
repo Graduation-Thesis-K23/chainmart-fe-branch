@@ -166,7 +166,7 @@ const EmployeesManagement = () => {
         loading={!(employees.status == ASYNC_STATUS.SUCCEED)}
         scroll={{
           scrollToFirstRowOnChange: true,
-          y: "calc(100vh - 203px)",
+          y: "calc(100vh - 267px)",
         }}
         onRow={(record) => ({
           onClick: () => {
