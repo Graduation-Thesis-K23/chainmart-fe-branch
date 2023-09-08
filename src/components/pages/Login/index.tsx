@@ -64,7 +64,7 @@ const Login = () => {
         autoComplete="off"
       >
         <Form.Item
-          label="Khóa luận"
+          label="Khóa luận 1"
           name="phone"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
